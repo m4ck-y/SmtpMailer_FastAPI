@@ -1,0 +1,18 @@
+# Python-generated files
+__pycache__/
+*.py[oc]
+build/
+dist/
+wheels/
+*.egg-info
+*$py.class
+
+# Enviroments
+*.venv/*
+.env
+
+# Temporary files
+temp/*
+
+# AI Development Configuration
+.kiro/
