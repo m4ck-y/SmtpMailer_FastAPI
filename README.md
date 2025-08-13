@@ -10,7 +10,7 @@ La API permite enviar diferentes tipos de correos electrónicos como códigos OT
 
 | Funcionalidad | Descripción |
 |---------------|-------------|
-| � **Configuuración por Variables de Entorno** | Configuración SMTP mediante variables de entorno o contenedor |
+| � **Configuración por Variables de Entorno** | Configuración SMTP mediante variables de entorno o contenedor |
 | 🧱 **Endpoints Especializados** | Endpoints específicos para cada tipo de correo |
 | 🎨 **Sistema de Plantillas** | Soporte para plantillas HTML personalizables |
 | 🛠️ **API RESTful Stateless** | Sin base de datos, configuración por entorno |
@@ -73,23 +73,52 @@ La API permite enviar diferentes tipos de correos electrónicos como códigos OT
 
 ### Instalación Rápida
 
+#### Opción 1: Desarrollo desde Cero (Comandos utilizados durante el desarrollo)
+
 ```bash
+# Instalar uv si no lo tienes
+curl -LsSf https://astral.sh/uv/install.sh | sh
+
+# Inicializar el proyecto
+uv init SmtpMailer_FastAPI
+cd SmtpMailer_FastAPI
+
+# Agregar dependencias principales
+uv add fastapi
+uv add uvicorn
+
+# Activar el entorno virtual
+source .venv/bin/activate
+
+# Ejecutar la aplicación
+uv run uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
+```
+
+#### Opción 2: Clonar Proyecto Existente (Recomendado)
+
+```bash
+# Instalar uv si no lo tienes
+curl -LsSf https://astral.sh/uv/install.sh | sh
+
 # Clonar el repositorio
 git clone git@github.com:m4ck-y/SmtpMailer_FastAPI.git
 cd SmtpMailer_FastAPI
 
-# Instalar uv si no lo tienes
-curl -LsSf https://astral.sh/uv/install.sh | sh
+# Crear el entorno virtual
+uv venv
 
-# Sincronizar dependencias (crea automáticamente el entorno virtual)
-uv sync
+# Activar el entorno virtual
+source .venv/bin/activate
 
-# Configurar variables de entorno (ver sección siguiente)
+# Instalar dependencias desde pyproject.toml
+uv pip install -e .
+
+# Configurar variables de entorno
 cp .env.example .env
 # Editar .env con tus credenciales SMTP
 
 # Ejecutar la aplicación
-uv run uvicorn main:app --host 0.0.0.0 --port 8000 --reload
+uv run uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
 ```
 
 ### Variables de Entorno Requeridas
