@@ -1,53 +1,68 @@
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
+from app.config import settings
+from app.otp.router import router_otp, TAG_OTP
 
+# Configuración de la aplicación FastAPI
 app = FastAPI(
     title="🚀 SmtpMailer FastAPI - Email Service API",
     version="1.0.0",
-    #TODO: simpliicar la descripcion, porque caundo de descpiegue va estar configurado solo para gmail, y se daran de alta determinados enpoins
     description="""
-API RESTful stateless para envío de correos electrónicos con soporte multi-proveedor SMTP.
+API RESTful stateless para envío de correos electrónicos con Gmail SMTP.
 
-SmtpMailer FastAPI es una solución moderna diseñada para aplicaciones que requieren envío de emails 
-confiable y escalable sin la complejidad de gestionar bases de datos o estados persistentes.
+## 📧 Funcionalidades Principales
+- **Envío de códigos OTP** - Autenticación de dos factores
+- **Correos de bienvenida** - Onboarding de usuarios
+- **Recuperación de contraseña** - Enlaces y códigos seguros
+- **Emails personalizados** - Plantillas HTML responsivas
 
-## 📋 Características Principales
-- **Configuración por variables de entorno** - Sin persistencia de datos, ideal para contenedores
-- **Soporte multi-proveedor** - Gmail, Outlook, SendGrid, Mailgun y proveedores SMTP personalizados
-- **Plantillas HTML responsivas** - Sistema de templates con Jinja2 para emails profesionales
-- **Arquitectura stateless** - Optimizada para microservicios y escalabilidad horizontal
-- **Validación robusta** - Pydantic v2 para validación automática de datos de entrada
-- **Seguridad integrada** - Rate limiting, headers de seguridad y sanitización de datos
+## 🚀 Características Técnicas
+- **Configuración por variables de entorno** - Sin base de datos
+- **Validación automática** - Pydantic v2 para datos de entrada
+- **Operaciones asíncronas** - Alta performance y concurrencia
+- **Seguridad integrada** - Rate limiting y headers seguros
 
-## 🎯 Casos de Uso Principales
-- **Códigos OTP** - Autenticación de dos factores con plantillas personalizables
-- **Correos de bienvenida** - Onboarding de usuarios con branding personalizado
-- **Recuperación de contraseña** - Enlaces seguros y códigos de recuperación
-- **Emails transaccionales** - Confirmaciones, notificaciones y alertas del sistema
-- **Comunicaciones masivas** - Envío eficiente con procesamiento asíncrono
-
-## 🚀 Stack Tecnológico
-- **FastAPI 0.104+** - Framework moderno con documentación automática
-- **Pydantic v2** - Validación de datos y serialización de alta performance
-- **aiosmtplib** - Cliente SMTP asíncrono para operaciones concurrentes
-- **Jinja2** - Motor de plantillas HTML para emails responsivos
-- **Python 3.12+** - Type hints completos y características modernas del lenguaje
-
-## 🔒 Seguridad y Performance
-- ✅ **Operaciones asíncronas** - Envío concurrente de múltiples emails
-- ✅ **Rate limiting** - Protección contra abuso y spam
-- ✅ **Headers de seguridad** - CORS, CSP, HSTS configurados automáticamente
-- ✅ **Logging estructurado** - Monitoreo y debugging eficiente
-
-## 🔗 Enlaces Útiles
+## 🔗 Enlaces
 - **Repositorio:** [github.com/m4ck-y/SmtpMailer_FastAPI](https://github.com/m4ck-y/SmtpMailer_FastAPI)
-- **Documentación:** Ver README.md para guías de configuración detalladas
 - **Soporte:** [GitHub Issues](https://github.com/m4ck-y/SmtpMailer_FastAPI/issues)
 """,
+    debug=settings.DEBUG,
     docs_url="/docs",
     redoc_url="/redoc",
-    openapi_url="/openapi.json"
+    openapi_url="/openapi.json",
+    openapi_tags=[TAG_OTP]
+)
+
+# Configuración de CORS
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=settings.ALLOWED_ORIGINS.split(","),
+    allow_credentials=True,
+    allow_methods=settings.ALLOWED_METHODS.split(","),
+    allow_headers=settings.ALLOWED_HEADERS.split(","),
 )
 
 @app.get("/")
 async def root():
-    return {"message": "Hello World"}
+    """Endpoint raíz que retorna información básica de la API."""
+    return {
+        "message": "SmtpMailer FastAPI - Email Service",
+        "version": "1.0.0",
+        "environment": settings.ENVIRONMENT,
+        "docs": "/docs",
+        "health": "/health"
+    }
+
+@app.get("/health")
+async def health_check():
+    """Health check básico del servicio."""
+    return {
+        "status": "healthy",
+        "service": "SmtpMailer FastAPI",
+        "version": "1.0.0",
+        "environment": settings.ENVIRONMENT,
+        "smtp_configured": bool(settings.SMTP_HOST and settings.SMTP_USERNAME and settings.SMTP_PASSWORD)
+    }
+
+
+app.include_router(router_otp)
