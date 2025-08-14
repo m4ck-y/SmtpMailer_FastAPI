@@ -3,6 +3,7 @@ from fastapi import FastAPI
 app = FastAPI(
     title="🚀 SmtpMailer FastAPI - Email Service API",
     version="1.0.0",
+    #TODO: simpliicar la descripcion, porque caundo de descpiegue va estar configurado solo para gmail, y se daran de alta determinados enpoins
     description="""
 API RESTful stateless para envío de correos electrónicos con soporte multi-proveedor SMTP.
 
