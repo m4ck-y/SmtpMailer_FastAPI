@@ -38,6 +38,8 @@ ENV SMTP_PORT=587
 ENV SMTP_USE_TLS=true
 ENV SMTP_USE_SSL=false
 ENV SMTP_TIMEOUT=30
+ENV SMTP_FROM_EMAIL=noreply@example.com
+ENV SMTP_FROM_NAME=SmtpMailer API
 
 # Configuración CORS (permisiva por defecto)
 ENV ALLOWED_ORIGINS=*

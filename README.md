@@ -249,8 +249,8 @@ SMTP_PORT=587                     # Puerto SMTP (default: 587)
 SMTP_USE_TLS=true                # Usar TLS (default: true)
 SMTP_USE_SSL=false               # Usar SSL (default: false)
 SMTP_TIMEOUT=30                  # Timeout SMTP (default: 30s)
-SMTP_FROM_EMAIL=                 # Email remitente (default: SMTP_USERNAME)
-SMTP_FROM_NAME=SmtpMailer API    # Nombre remitente
+SMTP_FROM_EMAIL=noreply@example.com  # Email remitente (default: noreply@example.com)
+SMTP_FROM_NAME=SmtpMailer API        # Nombre remitente (default: SmtpMailer API)
 ALLOWED_ORIGINS=*                # CORS origins (default: *)
 ```
 
