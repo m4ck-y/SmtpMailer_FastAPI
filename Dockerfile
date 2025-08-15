@@ -38,11 +38,17 @@ ENV SMTP_PORT=587
 ENV SMTP_USE_TLS=true
 ENV SMTP_USE_SSL=false
 ENV SMTP_TIMEOUT=30
+# Variables SMTP con valores por defecto
 ENV SMTP_FROM_EMAIL=noreply@example.com
-ENV SMTP_FROM_NAME=SmtpMailer API
+# ⚠️ IMPORTANTE: Valores con espacios DEBEN ir entre comillas en Docker
+# Sin comillas: ENV NAME=Mi App → Error "can't find = in App"
+# Con comillas: ENV NAME="Mi App" → Correcto
+ENV SMTP_FROM_NAME="SmtpMailer API"
 
 # Configuración CORS (permisiva por defecto)
+# NOTA: El asterisco (*) no necesita comillas en Docker ENV
 ENV ALLOWED_ORIGINS=*
+# Listas separadas por comas tampoco necesitan comillas si no hay espacios
 ENV ALLOWED_METHODS=GET,POST,PUT,DELETE,OPTIONS
 ENV ALLOWED_HEADERS=*
 
