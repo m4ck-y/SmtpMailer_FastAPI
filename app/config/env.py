@@ -1,5 +1,4 @@
 from pydantic_settings import BaseSettings, SettingsConfigDict
-from typing import Optional
 
 
 class Settings(BaseSettings):
@@ -12,11 +11,8 @@ class Settings(BaseSettings):
     """
     
     # === CONFIGURACIÓN DE LA API ===
-    API_HOST: str = "127.0.0.1"
-    API_PORT: int = 8000
     DEBUG: bool = False
     ENVIRONMENT: str = "development"
-    LOG_LEVEL: str = "INFO"
     
     # === CONFIGURACIÓN SMTP (OBLIGATORIAS) ===
     SMTP_HOST: str
@@ -28,31 +24,47 @@ class Settings(BaseSettings):
     SMTP_FROM_EMAIL: str
     SMTP_FROM_NAME: str = "SmtpMailer API"
     
-    # === CONFIGURACIÓN DE SEGURIDAD ===
-    API_KEY_ENABLED: bool = False
-    API_KEY: Optional[str] = None
-    RATE_LIMIT_ENABLED: bool = True
-    MAX_REQUESTS_PER_MINUTE: int = 100
-    MAX_REQUESTS_PER_HOUR: int = 1000
-    
     # === CONFIGURACIÓN DE CORS ===
     ALLOWED_ORIGINS: str = "*"
     ALLOWED_METHODS: str = "GET,POST,PUT,DELETE,OPTIONS"
     ALLOWED_HEADERS: str = "*"
     
-    # === CONFIGURACIÓN DE PLANTILLAS ===
-    COMPANY_NAME: str = "Mi Empresa"
-    COMPANY_LOGO_URL: Optional[str] = None
-    SUPPORT_EMAIL: Optional[str] = None
-    WEBSITE_URL: Optional[str] = None
-    
-    # === CONFIGURACIÓN DE CACHE ===
-    CACHE_TTL_SECONDS: int = 300  # 5 minutos
-    CACHE_ENABLED: bool = True
-    
     # === CONFIGURACIÓN DE TIMEOUTS ===
     SMTP_TIMEOUT: int = 30
-    REQUEST_TIMEOUT: int = 60
+    
+    # ========================================
+    # VARIABLES NO UTILIZADAS (COMENTADAS)
+    # ========================================
+    
+    # === CONFIGURACIÓN DE API AVANZADA ===
+    # Para usar en uvicorn.run() o configuración de servidor
+    # API_HOST: str = "127.0.0.1"  # Host del servidor
+    # API_PORT: int = 8000         # Puerto del servidor
+    # LOG_LEVEL: str = "INFO"      # Nivel de logging (DEBUG, INFO, WARN, ERROR)
+    
+    # === CONFIGURACIÓN DE SEGURIDAD ===
+    # Para implementar autenticación y rate limiting
+    # API_KEY_ENABLED: bool = False              # Activar autenticación por API key
+    # API_KEY: Optional[str] = None              # API key para endpoints protegidos
+    # RATE_LIMIT_ENABLED: bool = True           # Activar rate limiting
+    # MAX_REQUESTS_PER_MINUTE: int = 100        # Límite por minuto por IP
+    # MAX_REQUESTS_PER_HOUR: int = 1000         # Límite por hora por IP
+    
+    # === CONFIGURACIÓN DE PLANTILLAS ===
+    # Para personalizar templates HTML de emails
+    # COMPANY_NAME: str = "Mi Empresa"           # Nombre de empresa en templates
+    # COMPANY_LOGO_URL: Optional[str] = None     # URL del logo en emails
+    # SUPPORT_EMAIL: Optional[str] = None        # Email de soporte en templates
+    # WEBSITE_URL: Optional[str] = None          # URL del sitio web en emails
+    
+    # === CONFIGURACIÓN DE CACHE ===
+    # Para implementar cache de templates y configuraciones
+    # CACHE_TTL_SECONDS: int = 300  # 5 minutos  # TTL del cache
+    # CACHE_ENABLED: bool = True                 # Activar/desactivar cache
+    
+    # === CONFIGURACIÓN DE TIMEOUTS AVANZADOS ===
+    # Para timeouts de requests HTTP y otras operaciones
+    # REQUEST_TIMEOUT: int = 60                  # Timeout para requests HTTP
     
     model_config = SettingsConfigDict(
         env_file=".env",
