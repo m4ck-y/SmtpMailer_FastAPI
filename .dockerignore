@@ -1,0 +1,125 @@
+# 🐳 .dockerignore - SmtpMailer FastAPI
+# Optimiza el build de Docker excluyendo archivos innecesarios
+
+# ===== ARCHIVOS DE CONTROL DE VERSIONES =====
+.git
+.gitignore
+.gitattributes
+
+# ===== ARCHIVOS DE DOCUMENTACIÓN =====
+*.md
+docs/
+documentation/
+
+# ===== ARCHIVOS DE CONFIGURACIÓN DE DESARROLLO =====
+.kiro/
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# ===== ARCHIVOS SENSIBLES Y CREDENCIALES =====
+.env
+.env.*
+!.env.example
+credentials.json
+*.key
+*.pem
+*.crt
+secrets/
+
+# ===== ENTORNOS VIRTUALES PYTHON =====
+.venv/
+venv/
+env/
+ENV/
+.virtualenv
+
+# ===== ARCHIVOS GENERADOS POR PYTHON =====
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# ===== ARCHIVOS DE TESTING =====
+.pytest_cache/
+.coverage
+htmlcov/
+.tox/
+.nox/
+coverage.xml
+*.cover
+.hypothesis/
+
+# ===== ARCHIVOS TEMPORALES =====
+temp/
+tmp/
+*.tmp
+*.temp
+*.log
+*.pid
+*.seed
+*.pid.lock
+
+# ===== ARCHIVOS DE SISTEMA =====
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+desktop.ini
+
+# ===== ARCHIVOS DE DOCKER =====
+Dockerfile*
+docker-compose*.yml
+.dockerignore
+
+# ===== ARCHIVOS DE CI/CD =====
+.github/
+.gitlab-ci.yml
+.travis.yml
+.circleci/
+Jenkinsfile
+
+# ===== ARCHIVOS DE DEPENDENCIAS LOCALES =====
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# ===== ARCHIVOS DE BACKUP =====
+*.bak
+*.backup
+*.old
+*.orig
+
+# ===== ARCHIVOS DE CONFIGURACIÓN LOCAL =====
+.local
+.cache/
+.config/
+
+# ===== ARCHIVOS ESPECÍFICOS DEL PROYECTO =====
+# Agregar aquí archivos específicos de SmtpMailer que no deben ir al contenedor
+tests/
+test_*.py
+*_test.py

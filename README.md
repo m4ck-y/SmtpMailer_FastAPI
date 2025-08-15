@@ -164,40 +164,143 @@ curl -X POST "http://localhost:8000/emails/send-otp" \
 
 **Documentación completa:** http://localhost:8000/docs
 
-## 🚀 Despliegue con Docker
+## 🐳 Despliegue con Docker
+
+### Construcción y Ejecución
+
+#### ⚠️ Importante: Consistencia de versiones Python
+
+**Antes de construir**, verifica que las versiones de Python coincidan:
+
+```bash
+# Verificar versión en .python-version
+cat .python-version
+# Debe mostrar: 3.13
+
+# Verificar versión en Dockerfile
+grep "FROM python:" Dockerfile
+# Debe mostrar: FROM python:3.13-bookworm
+```
+
+Si no coinciden, **actualiza el Dockerfile** para evitar tener 2 versiones de Python en la imagen:
 
 ```dockerfile
-FROM python:3.12-slim
-WORKDIR /app
+# ❌ INCORRECTO: Si .python-version = 3.13 pero usas:
+FROM python:3.12-bookworm  # uv descargará Python 3.13 adicional
 
-# Instalar uv y dependencias
-RUN pip install uv
-COPY pyproject.toml uv.lock ./
-RUN uv sync --frozen
-
-# Copiar código fuente
-COPY . .
-EXPOSE 8000
-
-CMD ["uv", "run", "uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000"]
+# ✅ CORRECTO: Versiones coincidentes
+FROM python:3.13-bookworm  # Usa la misma versión que .python-version
 ```
 
-```yaml
-# docker-compose.yml
-version: '3.8'
-services:
-  smtp-mailer-api:
-    build: .
-    ports:
-      - "8000:8000"
-    environment:
-      - SMTP_HOST=smtp.gmail.com
-      - SMTP_PORT=587
-      - SMTP_USERNAME=tu-email@gmail.com
-      - SMTP_PASSWORD=tu-app-password
-      - SMTP_USE_TLS=true
-    restart: unless-stopped
+#### 1. Construir la imagen Docker
+
+```bash
+# Construir la imagen con tag personalizado
+docker build -t smtp-mailer-fastapi .
 ```
+
+#### 2. Ejecutar el contenedor
+
+**Opción 1: Usando archivo .env (recomendado):**
+
+```bash
+# Asegúrate de tener tu archivo .env configurado
+docker run -p 8000:8000 --env-file .env smtp-mailer-fastapi
+```
+
+**Opción 2: Variables individuales:**
+
+```bash
+docker run -p 8000:8000 \
+  -e SMTP_HOST=smtp.gmail.com \
+  -e SMTP_USERNAME=tu-email@gmail.com \
+  -e SMTP_PASSWORD=tu-app-password \
+  smtp-mailer-fastapi
+```
+
+**Ejecutar en background:**
+
+```bash
+# Con archivo .env
+docker run -d -p 8000:8000 --name smtp-mailer-api --env-file .env smtp-mailer-fastapi
+
+# Con variables individuales
+docker run -d -p 8000:8000 --name smtp-mailer-api \
+  -e SMTP_HOST=smtp.gmail.com \
+  -e SMTP_USERNAME=tu-email@gmail.com \
+  -e SMTP_PASSWORD=tu-app-password \
+  smtp-mailer-fastapi
+```
+
+### Variables de Entorno
+
+#### 🔴 Obligatorias (sin defaults seguros)
+```bash
+SMTP_HOST=smtp.gmail.com          # Servidor SMTP
+SMTP_USERNAME=tu-email@gmail.com  # Usuario SMTP
+SMTP_PASSWORD=tu-app-password     # Contraseña SMTP
+```
+
+#### ✅ Opcionales (tienen defaults en Dockerfile)
+```bash
+DEBUG=false                       # Modo debug
+ENVIRONMENT=production            # Entorno de ejecución
+SMTP_PORT=587                     # Puerto SMTP (default: 587)
+SMTP_USE_TLS=true                # Usar TLS (default: true)
+SMTP_USE_SSL=false               # Usar SSL (default: false)
+SMTP_TIMEOUT=30                  # Timeout SMTP (default: 30s)
+SMTP_FROM_EMAIL=                 # Email remitente (default: SMTP_USERNAME)
+SMTP_FROM_NAME=SmtpMailer API    # Nombre remitente
+ALLOWED_ORIGINS=*                # CORS origins (default: *)
+```
+
+### Comandos Útiles
+
+```bash
+# Ver logs del contenedor
+docker logs smtp-mailer-api
+
+# Ver logs en tiempo real
+docker logs -f smtp-mailer-api
+
+# Parar el contenedor
+docker stop smtp-mailer-api
+
+# Eliminar el contenedor
+docker rm smtp-mailer-api
+
+# Eliminar la imagen
+docker rmi smtp-mailer-fastapi
+```
+
+### Verificación
+
+Una vez ejecutándose, verifica que funciona:
+
+```bash
+# Health check
+curl http://localhost:8000/health
+
+# Documentación interactiva
+open http://localhost:8000/docs
+```
+
+### 🔍 Optimización de Imagen Docker
+
+#### Verificar tamaño de imagen
+```bash
+# Ver tamaño de la imagen construida
+docker images smtp-mailer-fastapi
+
+# Debería ser ~200-300MB con versiones coincidentes
+# Si es >500MB, probablemente tienes versiones duplicadas de Python
+```
+
+#### Mejores prácticas
+- **Mantén sincronizadas** las versiones de Python en `.python-version` y `Dockerfile`
+- **Usa `--locked`** en `uv sync` para reproducibilidad exacta
+- **Aprovecha el cache** de layers copiando `pyproject.toml` antes que el código
+- **Verifica manualmente las versiones** antes de cada build para evitar duplicaciones
 
 ## 📚 Documentación
 
