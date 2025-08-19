@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Confirmación de Registro</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        .container {
+            background-color: #ffffff;
+            padding: 40px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            max-width: 600px;
+            width: 95%;
+        }
+        .logo {
+            margin-bottom: 30px;
+        }
+        .logo img {
+            max-width: 150px;
+            height: auto;
+        }
+        h1 {
+            color: #333;
+            margin-bottom: 20px;
+        }
+        p {
+            color: #555;
+            line-height: 1.6;
+            margin-bottom: 25px;
+        }
+        .otp-code {
+            background-color: #e9ecef;
+            padding: 15px 30px;
+            border-radius: 5px;
+            font-size: 24px;
+            font-weight: bold;
+            color: #007bff;
+            margin-bottom: 30px;
+            display: inline-block;
+        }
+        .button {
+            display: inline-block;
+            padding: 12px 24px;
+            background-color: #007bff;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+            transition: background-color 0.3s ease;
+        }
+        .button:hover {
+            background-color: #0056b3;
+        }
+        .footer {
+            margin-top: 30px;
+            font-size: 0.9em;
+            color: #777;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="logo">
+            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT5mug1kZAbRtSexOlAnCSRDudlfe-GKxYfQA&s" alt="Logo de tu Aplicación">
+        </div>
+        <h1>Completa tu Registro</h1>
+        <p>Por favor, introduce el siguiente código de confirmación en la ventana donde iniciaste la creación de tu cuenta:</p>
+        <div class="otp-code">{{ otp_code }}</div>
+        <p>Desde tu dispositivo móvil, utiliza el código para confirmar tu correo electrónico.</p>
+        <p>O haz clic en el siguiente botón para confirmar tu correo electrónico:</p>
+        <a href="#" class="button">Confirmar mi Correo Electrónico</a>
+        <p>Si no creaste una cuenta en nuestra plataforma, por favor ignora este mensaje.</p>
+        <div class="footer">
+            <p>Has recibido esta notificación porque te has registrado en {{ app_name }}.</p>
+        </div>
+    </div>
+</body>
+</html>

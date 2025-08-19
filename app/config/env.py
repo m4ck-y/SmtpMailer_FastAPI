@@ -1,4 +1,5 @@
 from pydantic_settings import BaseSettings, SettingsConfigDict
+from typing import Optional
 
 
 class Settings(BaseSettings):
@@ -52,10 +53,11 @@ class Settings(BaseSettings):
     
     # === CONFIGURACIÓN DE PLANTILLAS ===
     # Para personalizar templates HTML de emails
-    # COMPANY_NAME: str = "Mi Empresa"           # Nombre de empresa en templates
-    # COMPANY_LOGO_URL: Optional[str] = None     # URL del logo en emails
-    # SUPPORT_EMAIL: Optional[str] = None        # Email de soporte en templates
-    # WEBSITE_URL: Optional[str] = None          # URL del sitio web en emails
+    APP_NAME: str = "SmtpMailer API"
+    COMPANY_NAME: str = "SmtpMailer API"
+    COMPANY_LOGO_URL: str = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT5mug1kZAbRtSexOlAnCSRDudlfe-GKxYfQA&s"
+    SUPPORT_EMAIL: str = "soporte@smtpmailer.com"
+    WEBSITE_URL: str = "https://smtpmailer.com"
     
     # === CONFIGURACIÓN DE CACHE ===
     # Para implementar cache de templates y configuraciones
