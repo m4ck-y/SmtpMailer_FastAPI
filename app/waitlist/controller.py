@@ -91,7 +91,8 @@ class EmailWaitlistApplication:
             
             # Crear mensaje de email
             message = MIMEMultipart("alternative")
-            message["Subject"] = f"¡Gracias por registrarte! - {settings.APP_NAME}"
+            #message["Subject"] = f"¡Gracias por registrarte! - {settings.APP_NAME}"
+            message["Subject"] = "¡Gracias por unirte a la lista de espera!"
             message["From"] = f"{settings.SMTP_FROM_NAME} <{settings.SMTP_FROM_EMAIL}>"
             message["To"] = request.email
             
