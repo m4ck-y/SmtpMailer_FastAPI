@@ -3,6 +3,7 @@ from typing import Optional
 
 
 class OTPEmailRequest(BaseModel):
+    #TODO: checar si en la documentacion se habla de none , por que el enpoint si es para el frontend ellos manejan null, en los datos
     """
     Modelo de solicitud para envío de email OTP simplificado.
     
