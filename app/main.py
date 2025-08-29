@@ -2,6 +2,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from app.config import settings
 from app.otp.router import router_otp, TAG_OTP
+from app.waitlist.router import router_waitlist, TAG_WAITLIST
 
 # Configuración de la aplicación FastAPI
 app = FastAPI(
@@ -30,7 +31,7 @@ API RESTful stateless para envío de correos electrónicos con Gmail SMTP.
     docs_url="/docs",
     redoc_url="/redoc",
     openapi_url="/openapi.json",
-    openapi_tags=[TAG_OTP]
+    openapi_tags=[TAG_OTP, TAG_WAITLIST]
 )
 
 # Configuración de CORS
@@ -66,3 +67,4 @@ async def health_check():
 
 
 app.include_router(router_otp)
+app.include_router(router_waitlist)
