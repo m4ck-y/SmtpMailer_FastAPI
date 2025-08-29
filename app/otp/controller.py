@@ -62,7 +62,8 @@ class EmailOTPApplication:
             msg = MIMEMultipart()
             msg['From'] = settings.SMTP_FROM_EMAIL
             msg['To'] = request.email
-            msg['Subject'] = f'Código de verificación - {settings.APP_NAME}'
+            #msg['Subject'] = f'Código de verificación - {settings.APP_NAME}'
+            msg['Subject'] = "Codigo de verificación"
             msg.attach(MIMEText(html_content, 'html'))
             
             # Enviar el correo
